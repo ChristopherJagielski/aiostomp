@@ -111,7 +111,11 @@ class AioStomp:
 
         self._host = host
         self._port = port
-        self._loop = loop or asyncio.get_running_loop()
+        try:
+            self._loop = loop or asyncio.get_running_loop()
+        except:
+            # if no running loop RuntimeError is raised; create new loop
+            self._loop = asyncio.new_event_loop()           
 
         self._stats = None
 
